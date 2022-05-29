@@ -13,6 +13,16 @@ function flipCard() {
         hasFlippedCard = false
         secondCard = this
     }
+
+    if (firstCard.dataset.stick === secondCard.dataset.stick) {
+        firstCard.removeEventListener("click", flipCard)
+        secondCard.removeEventListener("click", flipCard)
+    } else {
+        setTimeout(() => {
+            firstCard.classList.remove("flip")
+            secondCard.classList.remove("flip")
+        }, 1500)
+    }
 }
 
 cards.forEach((card) => card.addEventListener("click", flipCard) )
