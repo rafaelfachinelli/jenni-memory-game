@@ -9,7 +9,15 @@
     <title>Jenni - Memory Game</title>
 </head>
 <body>
-    <div class="title">Jenni Memory Game</div>
+    <header>
+        <div class="title">Jenni Memory Game</div>
+        <div class="actions">
+            <div class="timer">
+                <label id="minutes">00</label>:<label id="seconds">00</label>
+            </div>
+            <button id="restart-button" onclick="window.location.reload()">Reiniciar</button>
+        </div>
+    </header>
     <section class="memory-game">
         <div class="memory-card" data-stick="argh">
             <img class="front-face" src="assets/argh.jpeg" alt="ARGH" />

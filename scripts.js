@@ -1,12 +1,19 @@
 const cards = document.querySelectorAll(".memory-card")
+const timerElement = document.querySelector(".timer")
 
 let hasFlippedCard = false
 let lockBoard = false
 let firstCard, secondCard
+let isTimerRunning = false
+let timerInterval
 
 function flipCard() {
     if (lockBoard) return
     if (this === firstCard) return
+    if (!isTimerRunning) {
+        isTimerRunning = true
+        startTimer()
+    }
 
     this.classList.toggle("flip")
 
@@ -21,11 +28,27 @@ function flipCard() {
     secondCard = this
 
     checkForMatch()
+    checkForWin()
 }
 
 function checkForMatch() {
     const isMatch = firstCard.dataset.stick === secondCard.dataset.stick
     isMatch ? disableCards() : unflipCards()
+}
+
+function checkForWin() {
+    const resultList = Object.keys(cards).map((key) => {
+        const card = cards[key]
+        return card.classList.contains("flip")
+    })
+
+    const isWin = resultList.every((result) => result === true)
+    if (isWin) setWin()
+}
+
+function setWin () {
+    clearInterval(timerInterval)
+    timerElement.classList.add("finish-game-timer")
 }
 
 function disableCards() {
@@ -58,3 +81,27 @@ function resetBoard() {
 })()
 
 cards.forEach((card) => card.addEventListener("click", flipCard) )
+
+// Timer
+var minutesLabel = document.getElementById("minutes");
+var secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
+
+function startTimer() {
+    timerInterval = setInterval(setTime, 1000);
+}
+
+function setTime() {
+  ++totalSeconds;
+  secondsLabel.innerHTML = pad(totalSeconds % 60);
+  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+}
+
+function pad(val) {
+  var valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
+}
